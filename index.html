@@ -1,33 +1,44 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>DogeViral (DGV)</title>
-  <link rel="stylesheet" href="/style.css">
+  <title>DogeViral - $DGV Presale</title>
+  <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
-  <header>
-    <h1>DogeViral (DGV)</h1>
-    <p class="slogan">Viralão não late, ele moon!</p>
-    <button id="connectWallet">Conectar Carteira</button>
-    <button id="buyDGV">Comprar DGV</button>
+  <nav class="navbar">
+    <div class="logo">🐶 DOGEVIRAL</div>
+    <ul class="nav-links">
+      <li><a href="#">Home</a></li>
+      <li><a href="#">Roadmap</a></li>
+      <li><a href="#">How to Buy</a></li>
+      <li><a href="#">Tokenomics</a></li>
+      <li><a href="#">About</a></li>
+      <li><a href="#">FAQ</a></li>
+    </ul>
+    <button class="connect-btn" id="connectWalletBtn">Connect Wallet</button>
+  </nav>
+
+  <header class="hero-section">
+    <h1>$DGV PRESALE IS LIVE</h1>
+    <p>Get the viral memecoin on Solana!</p>
+    <div class="hero-buttons">
+      <button class="buy-btn" id="buyDGV">BUY DGV</button>
+      <button class="learn-btn">LEARN MORE</button>
+    </div>
   </header>
-  <main>
-    <section class="sobre">
-      <h2>O que é o DogeViral?</h2>
-      <p>O Viralão é um Shiba Inu influencer digital que vai levar sua carteira para a lua com muito estilo, memes e neon! 🚀🐶</p>
-    </section>
-    <section class="simulador">
-      <h2>Simulador de Compra</h2>
-      <input type="number" id="solAmount" placeholder="Digite quantos SOL quer investir" />
-      <p id="dgvAmount">Você receberá: 0 DGV</p>
-    </section>
-    <section class="historico">
-      <h2>Seus DGV comprados:</h2>
-      <p id="historicoCompra">Conecte sua carteira para ver.</p>
-    </section>
-  </main>
-  <script type="module" src="/script.js"></script>
+
+  <section class="stats-section">
+    <h2>Presale Stats</h2>
+    <p><strong>Price:</strong> 1 SOL = 100,000 DGV</p>
+    <p><strong>Total Raised:</strong> 153 SOL</p>
+  </section>
+
+  <footer class="footer">
+    <p>© 2025 DogeViral. All rights reserved.</p>
+  </footer>
+
+  <script src="script.js"></script>
 </body>
 </html>

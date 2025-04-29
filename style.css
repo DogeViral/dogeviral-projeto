@@ -1,47 +1,101 @@
 body {
   margin: 0;
-  font-family: 'Arial', sans-serif;
-  background: linear-gradient(to right, #1e002e, #00334e);
+  font-family: 'Orbitron', sans-serif;
+  background: linear-gradient(#06001a, #140038);
+  color: white;
+  overflow-x: hidden;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #1a0033;
+  padding: 1rem 2rem;
+  border-bottom: 2px solid #33ffff;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 1.5rem;
+}
+
+.nav-links li a {
+  color: #33ffff;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s;
+}
+
+.nav-links li a:hover {
   color: #ffffff;
-  text-align: center;
-  padding: 20px;
 }
 
-h1 {
-  font-size: 3rem;
-  color: #39ff14;
-  text-shadow: 0 0 10px #39ff14;
-}
-
-.slogan {
-  font-size: 1.2rem;
-  color: #9d00ff;
-  margin-bottom: 20px;
-}
-
-button {
-  background: #00ffff;
-  color: #000;
+.connect-btn {
+  background: #33ff99;
   border: none;
-  padding: 15px 30px;
-  margin: 10px;
-  font-size: 1rem;
-  border-radius: 10px;
+  padding: 0.6rem 1.2rem;
+  font-weight: bold;
+  border-radius: 6px;
   cursor: pointer;
-  box-shadow: 0 0 20px #00ffff;
-  transition: all 0.3s ease;
 }
 
-button:hover {
-  box-shadow: 0 0 40px #00ffff;
-  transform: scale(1.05);
+.hero-section {
+  text-align: center;
+  padding: 5rem 2rem;
+  background: url('/public/stars-bg.png') no-repeat center center;
+  background-size: cover;
 }
 
-input {
-  padding: 10px;
-  border-radius: 10px;
+.hero-section h1 {
+  font-size: 3rem;
+  color: #ffcc00;
+}
+
+.hero-section p {
+  font-size: 1.2rem;
+  margin: 1rem 0 2rem;
+}
+
+.hero-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.buy-btn,
+.learn-btn {
+  padding: 1rem 2rem;
+  font-size: 1rem;
+  font-weight: bold;
   border: none;
-  margin: 10px 0;
-  width: 80%;
-  max-width: 300px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.buy-btn {
+  background: #00ffcc;
+  color: #000;
+}
+
+.learn-btn {
+  background: #9933ff;
+  color: #fff;
+}
+
+.stats-section {
+  padding: 4rem 2rem;
+  text-align: center;
+  background-color: #0d001a;
+  border-top: 2px solid #33ffff;
+  border-bottom: 2px solid #33ffff;
+}
+
+.footer {
+  text-align: center;
+  padding: 2rem;
+  background-color: #1a0033;
+  color: #999;
+  font-size: 0.9rem;
 }
