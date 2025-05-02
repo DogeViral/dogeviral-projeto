@@ -1,101 +1,210 @@
-body {
+* {
   margin: 0;
-  font-family: 'Orbitron', sans-serif;
-  background: linear-gradient(#06001a, #140038);
-  color: white;
-  overflow-x: hidden;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-.navbar {
+body {
+  font-family: 'Arial', sans-serif;
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  color: #fff;
+  line-height: 1.6;
+  font-size: 14px;
+}
+
+nav.navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #1a0033;
-  padding: 1rem 2rem;
-  border-bottom: 2px solid #33ffff;
+  height: 30px;
+  padding: 0 0px;
+  background: rgba(0,0,0,0.8);
 }
 
-.nav-links {
+nav.navbar .logo-container {
+  display: flex;
+  align-items: center;
+}
+
+nav.navbar .logo-container img {
+  height: 40px;
+}
+
+nav.navbar .logo-container span {
+  font-size: 1.2em;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+}
+
+nav.navbar .nav-links {
   list-style: none;
   display: flex;
-  gap: 1.5rem;
+  align-items: center;
+  height: 100%;
 }
 
-.nav-links li a {
-  color: #33ffff;
+nav.navbar .nav-links li {
+  margin-left: 15px;
+}
+
+nav.navbar .nav-links a {
+  color: #fff;
   text-decoration: none;
-  font-weight: bold;
   transition: color 0.3s;
+  font-size: 0.9em;
+  line-height: 1;
+  display: flex;
+  align-items: center;
 }
 
-.nav-links li a:hover {
-  color: #ffffff;
+nav.navbar .nav-links a:hover {
+  color: #00ffcc;
 }
 
 .connect-btn {
-  background: #33ff99;
+  height: 28px;
+  padding: 0 12px;
+  display: flex;
+  align-items: center;
+  background-color: #00ffcc;
   border: none;
-  padding: 0.6rem 1.2rem;
-  font-weight: bold;
-  border-radius: 6px;
+  border-radius: 5px;
   cursor: pointer;
+  color: #000;
+  font-weight: bold;
+  transition: background-color 0.3s;
+  font-size: 0.9em;
+}
+
+.connect-btn:hover {
+  background-color: #00cc99;
 }
 
 .hero-section {
   text-align: center;
-  padding: 5rem 2rem;
-  background: url('/public/stars-bg.png') no-repeat center center;
-  background-size: cover;
+  padding: 70px 20px;
+  background: rgba(0, 0, 0, 0.7);
 }
 
 .hero-section h1 {
-  font-size: 3rem;
-  color: #ffcc00;
+  font-size: 2em;
+  margin-bottom: 15px;
 }
 
 .hero-section p {
-  font-size: 1.2rem;
-  margin: 1rem 0 2rem;
+  font-size: 1em;
+  margin-bottom: 20px;
 }
 
 .hero-buttons {
-  display: flex;
-  justify-content: center;
-  gap: 2rem;
+  margin-bottom: 20px;
 }
 
-.buy-btn,
-.learn-btn {
-  padding: 1rem 2rem;
-  font-size: 1rem;
-  font-weight: bold;
+.buy-btn, .learn-btn {
+  padding: 8px 20px;
+  margin: 10px;
   border: none;
-  border-radius: 8px;
+  border-radius: 5px;
   cursor: pointer;
+  font-size: 0.9em;
 }
 
 .buy-btn {
-  background: #00ffcc;
+  background-color: #00ffcc;
   color: #000;
 }
 
+.buy-btn:hover {
+  background-color: #00cc99;
+}
+
 .learn-btn {
-  background: #9933ff;
-  color: #fff;
+  background-color: #fff;
+  color: #000;
+}
+
+.learn-btn:hover {
+  background-color: #f1f1f1;
+}
+
+.simulator {
+  text-align: center;
+  margin: 20px auto;
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.1);
+  width: 90%;
+  max-width: 350px;
+  border-radius: 10px;
+}
+
+.simulator label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+.simulator input {
+  width: 80%;
+  padding: 8px;
+  border: none;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.simulator p {
+  margin-top: 8px;
+  font-size: 1em;
 }
 
 .stats-section {
-  padding: 4rem 2rem;
   text-align: center;
-  background-color: #0d001a;
-  border-top: 2px solid #33ffff;
-  border-bottom: 2px solid #33ffff;
+  padding: 40px 20px;
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.stats-section h2 {
+  font-size: 1.4em;
+  margin-bottom: 15px;
 }
 
 .footer {
   text-align: center;
-  padding: 2rem;
-  background-color: #1a0033;
-  color: #999;
-  font-size: 0.9rem;
+  padding: 15px;
+  background: rgba(0, 0, 0, 0.8);
+  font-size: 0.8em;
+}
+
+.how-to-buy {
+  display: flex;
+  justify-content: center;
+  padding: 40px 20px;
+}
+
+.how-to-buy-box {
+  background: rgba(255, 255, 255, 0.8);
+  padding: 30px;
+  border-radius: 12px;
+  max-width: 600px;
+  width: 100%;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.how-to-buy h3 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 1.6em;
+  color: #fff;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.8);
+}
+
+.how-to-buy ul {
+  list-style-type: disc;
+  padding-left: 20px;
+  color: #fff;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.8);
+}
+
+.how-to-buy ul li {
+  margin-bottom: 10px;
 }

@@ -1,45 +1,485 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>DogeViral - $DGV Presale</title>
-  <link rel="stylesheet" href="style.css"/>
+  <script src="https://unpkg.com/@solana/web3.js@1.73.2/lib/index.iife.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DogeViral Pre-Sale</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      color: #fff;
+      line-height: 1.6;
+      font-size: 14px;
+    }
+    nav.navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0% 30px;
+      background: rgba(0,0,0,0.8);
+    }
+    .logo-container { display: flex; align-items: center; }
+    .logo-container img { height: 40px; }
+    .logo-container span {
+      margin-left: 10px;
+      font-size: 18px;
+      font-weight: bold;
+    }
+    .nav-links {
+      list-style: none;
+      display: flex;
+    }
+    .nav-links li { margin-left: 15px; }
+    .nav-links a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 0.9em;
+      transition: color 0.3s;
+    }
+    .nav-links a:hover { color: #00ffcc; }
+    .connect-btn {
+      padding: 8px 16px;
+      background: #00ffcc;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      color: #000;
+      font-weight: bold;
+      transition: background 0.3s;
+      font-size: 0.9em;
+    }
+    .connect-btn:hover { background: #00cc99; }
+    .hero-section {
+      text-align: center;
+      padding: 70px 20px;
+      background: rgba(0,0,0,0.7);
+    }
+    .hero-section h1 { font-size: 2em; margin-bottom: 15px; }
+    .hero-section p { font-size: 1em; margin-bottom: 20px; }
+    .hero-buttons { margin-bottom: 20px; }
+    .buy-btn, .learn-btn {
+      padding: 8px 20px;
+      margin: 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 0.9em;
+    }
+    .buy-btn { background: #00ffcc; color: #000; }
+    .buy-btn:hover { background: #00cc99; }
+    .learn-btn { background: #fff; color: #000; }
+    .learn-btn:hover { background: #f1f1f1; }
+    .simulator {
+      text-align: center;
+      margin: 20px auto;
+      padding: 15px;
+      background: rgba(255,255,255,0.1);
+      width: 90%;
+      max-width: 350px;
+      border-radius: 10px;
+    }
+    .simulator label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+    }
+    .simulator input {
+      width: 80%;
+      padding: 8px;
+      border: none;
+      border-radius: 5px;
+      margin-bottom: 10px;
+    }
+    .simulator p { margin-top: 8px; font-size: 1em; }
+    .stats-section {
+      text-align: center;
+      padding: 40px 20px;
+      background: rgba(0,0,0,0.6);
+    }
+    .stats-section h2 { font-size: 1.4em; margin-bottom: 15px; }
+    .how-to-buy {
+      display: flex;
+      justify-content: center;
+      padding: 30px 20px;
+    }
+    .how-to-buy-box {
+      background: rgba(255,255,255,0.1);
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 600px;
+      width: 100%;
+    }
+    .how-to-buy h3 {
+      text-align: center;
+      margin-bottom: 15px;
+      font-size: 1.4em;
+    }
+    .how-to-buy ul {
+      list-style-type: disc;
+      margin-left: 20px;
+    }
+    .how-to-buy ul li { margin-bottom: 10px; }
+    .footer {
+      text-align: center;
+      padding: 15px;
+      background: rgba(0,0,0,0.8);
+      font-size: 0.8em;
+    }
+    .about-section {
+  text-align: center;
+  padding: 50px 20px;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.about-section h2 {
+  font-size: 1.6em;
+  margin-bottom: 20px;
+  color: #ffffff;
+}
+
+.about-section p {
+  max-width: 700px;
+  margin: 0 auto 15px;
+  font-size: 1em;
+  line-height: 1.8;
+  color: #ddd;
+}
+.popup {
+  position: fixed;
+  bottom: 30px;
+  left: 30px;
+  background: rgba(0, 0, 0, 0.85);
+  color: #fff;
+  padding: 15px 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  font-size: 0.9em;
+  display: none;
+  z-index: 9999;
+  animation: fadeInOut 6s ease-in-out forwards;
+}
+
+@keyframes fadeInOut {
+  0% { opacity: 0; transform: translateY(20px); }
+  10%, 90% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(20px); }
+}
+
+.tokenomics-section {
+  padding: 60px 20px;
+  background-color: #0a0a0a;
+  text-align: center;
+}
+
+.tokenomics-section h2 {
+  font-size: 28px;
+  color: #00ffcc;
+  margin-bottom: 40px;
+  letter-spacing: 2px;
+}
+
+.tokenomics-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 30px;
+}
+
+.tokenomics-image img {
+  max-width: 300px;
+  height: auto;
+}
+
+.tokenomics-items {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 400px;
+}
+
+.tokenomics-card {
+  background-color: rgba(255, 255, 255, 0.05);
+  padding: 20px;
+  border-radius: 10px;
+  text-align: left;
+}
+
+.tokenomics-card h3 {
+  font-size: 18px;
+  color: #00ffcc;
+  margin-bottom: 10px;
+}
+
+.tokenomics-card p {
+  font-size: 14px;
+  color: #ffffff;
+  margin: 0;
+}
+
+  </style>
 </head>
 <body>
-  <nav class="navbar">
-    <div class="logo">🐶 DOGEVIRAL</div>
-    <ul class="nav-links">
-      <li><a href="#">Home</a></li>
-      <li><a href="#">Roadmap</a></li>
-      <li><a href="#">How to Buy</a></li>
-      <li><a href="#">Tokenomics</a></li>
-      <li><a href="#">About</a></li>
-      <li><a href="#">FAQ</a></li>
+
+<nav class="navbar">
+  <div class="logo-container">
+    <img src="https://iili.io/3jqZL5G.png">
+    <span>Doge Viral</span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#howto">How to Buy</a></li>
+  </ul>
+  <button class="connect-btn" id="connectWalletBtn">Connect Wallet</button>
+</nav>
+
+<section class="hero-section">
+  <h1>Buy DogeViral Pre-Sale Now!</h1>
+  <p>Join the future of memes with DGV — secure your tokens today.</p>
+  <div class="hero-buttons">
+    <button class="buy-btn" id="buyDGV">Buy</button>
+    <button class="learn-btn">Learn More</button>
+  </div>
+  <div class="simulator">
+    <label for="solInput">Enter how many SOL you want to exchange for DGV</label>
+    <input type="number" id="solInput" placeholder="Amount of SOL">
+    <p>You will get: <span id="dgvOutput">0</span> DGV</p>
+  </div>
+</section>
+
+<section class="stats-section">
+  <h2>Total Raised: <span id="totalRaised">153</span> SOL</h2>
+  <h2>Current Price: $<span id="currentPrice">0.001000</span></h2>
+  <h2>DGV per SOL: <span id="dgvPerSol">1839150</span></h2>
+  <h2>Next Price Update In: <span id="countdown">48:00:00</span></h2>
+</section>
+
+<section class="how-to-buy" id="howto">
+  <div class="how-to-buy-box">
+    <h3>How to Buy DGV</h3>
+    <ul>
+      <li>Install Phantom Wallet on your computer or mobile.</li>
+      <li>Fund your wallet with SOL.</li>
+      <li>On mobile, open the Phantom Wallet app and use its browser to access this site.</li>
+      <li>Connect your wallet by clicking the "Connect Wallet" button.</li>
+      <li>Enter how many SOL you want to exchange in the simulator.</li>
+      <li>Click "Buy" and approve the transaction in your wallet.</li>
+      <li>Done! You’ll receive your DGV after the pre-sale ends.</li>
     </ul>
-    <button class="connect-btn" id="connectWalletBtn">Connect Wallet</button>
-  </nav>
+  </div>
+</section>
 
-  <header class="hero-section">
-    <h1>$DGV PRESALE IS LIVE</h1>
-    <p>Get the viral memecoin on Solana!</p>
-    <div class="hero-buttons">
-      <button class="buy-btn" id="buyDGV">BUY DGV</button>
-      <button class="learn-btn">LEARN MORE</button>
+...
+</section>
+
+<section class="about-section">
+  <h2>About Doge Viral</h2>
+  <p>
+    Doge Viral (DGV) is not just another memecoin — it’s a movement. With a strong and passionate community, DGV aims to redefine what it means to combine humor, utility, and blockchain technology. Backed by transparent development and a clear roadmap, we are building a project that’s meant to last.
+  </p>
+  <p>
+    We are also thrilled to announce that Doge Viral will undergo a full smart contract audit on <strong>May 25, 2025</strong> by <strong>CertiK</strong>, one of the most respected and trusted blockchain security firms in the world. This audit will help strengthen the project’s credibility and ensure that our smart contracts are safe and secure.
+  </p>
+</section>
+
+<div class="popup" id="purchasePopup"></div>
+
+<section class="tokenomics-section">
+  <h2>[DOGEVIRAL TOKENOMICS]</h2>
+  <div class="tokenomics-container">
+  
+    <div class="tokenomics-items">
+      <div class="tokenomics-card">
+        <h3>15% — BURN</h3>
+        <p>15% of tokens will be burned to increase value and reduce supply.</p>
+      </div>
+      <div class="tokenomics-card">
+        <h3>25% — MARKETING</h3>
+        <p>25% reserved for marketing and community growth.</p>
+      </div>
+      <div class="tokenomics-card">
+        <h3>20% — DEVELOPMENT</h3>
+        <p>20% allocated to development, tech updates, and future improvements.</p>
+      </div>
+      <div class="tokenomics-card">
+        <h3>25% — LIQUIDITY</h3>
+        <p>25% locked in liquidity pools to ensure smooth trading.</p>
+      </div>
+      <div class="tokenomics-card">
+        <h3>15% — TEAM & REWARDS</h3>
+        <p>15% for team incentives and community rewards.</p>
+      </div>
     </div>
-  </header>
+  </div>
+</section>
 
-  <section class="stats-section">
-    <h2>Presale Stats</h2>
-    <p><strong>Price:</strong> 1 SOL = 100,000 DGV</p>
-    <p><strong>Total Raised:</strong> 153 SOL</p>
-  </section>
+<footer class="footer">
+  &copy; 2025 DogeViral. All rights reserved.
+</footer>
 
-  <footer class="footer">
-    <p>© 2025 DogeViral. All rights reserved.</p>
-  </footer>
 
-  <script type="module" src="./script.js"></script>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
+  import { getDatabase, ref, onValue, set, get, onChildAdded } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-database.js";
+  
+  const firebaseConfig = {
+    apiKey: "AIzaSyCieNTqqhudzt0NAmnpi2EEqha5UN08csc",
+    authDomain: "dogeviral.firebaseapp.com",
+    databaseURL: "https://dogeviral-default-rtdb.firebaseio.com",
+    projectId: "dogeviral",
+    storageBucket: "dogeviral.appspot.com",
+    messagingSenderId: "399656569787",
+    appId: "1:399656569787:web:c85c0a2512db2e66b7529e"
+  };
+  
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+  
+  const totalRaisedEl = document.getElementById('totalRaised');
+  const currentPriceEl = document.getElementById('currentPrice');
+  const dgvPerSolEl = document.getElementById('dgvPerSol');
+  const countdownEl = document.getElementById('countdown');
+  const dgvUserEl = document.createElement('p');
+  dgvUserEl.id = 'userDGV';
+  document.querySelector('.simulator').appendChild(dgvUserEl);
+  
+  onValue(ref(db, 'stats/totalRaised'), (snap) => {
+    if (snap.exists()) totalRaisedEl.textContent = snap.val();
+  });
+  onValue(ref(db, 'stats/currentPrice'), (snap) => {
+    if (snap.exists()) currentPriceEl.textContent = snap.val();
+  });
+  onValue(ref(db, 'stats/dgvPerSol'), (snap) => {
+    if (snap.exists()) dgvPerSolEl.textContent = snap.val();
+  });
+  onValue(ref(db, 'stats/nextPriceUpdateTimestamp'), (snap) => {
+    let targetTimestamp = snap.val();
+    const updateCountdown = async () => {
+      const now = Math.floor(Date.now() / 1000);
+      let secondsLeft = targetTimestamp - now;
+      if (secondsLeft <= 0) {
+        const newTimestamp = now + 48 * 3600;
+        await set(ref(db, 'stats/nextPriceUpdateTimestamp'), newTimestamp);
+        targetTimestamp = newTimestamp;
+        const currentPriceSnap = await get(ref(db, 'stats/currentPrice'));
+        const currentPrice = parseFloat(currentPriceSnap.val());
+        const newPrice = (currentPrice * 1.45).toFixed(6);
+        await set(ref(db, 'stats/currentPrice'), newPrice);
+        const dgvPerSol = Math.floor(1 / newPrice);
+        await set(ref(db, 'stats/dgvPerSol'), dgvPerSol);
+        secondsLeft = targetTimestamp - now;
+      }
+      const hours = Math.floor(secondsLeft / 3600);
+      const minutes = Math.floor((secondsLeft % 3600) / 60);
+      const seconds = secondsLeft % 60;
+      countdownEl.textContent = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+    };
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+  });
+  
+  document.getElementById('connectWalletBtn').addEventListener('click', async () => {
+    if (window.solana && window.solana.isPhantom) {
+      try {
+        const resp = await window.solana.connect();
+        alert('Connected: ' + resp.publicKey.toString());
+        loadUserDGV(resp.publicKey.toString());
+      } catch (err) {
+        console.error('Connection failed:', err);
+      }
+    } else {
+      alert('Phantom Wallet not found');
+    }
+  });
+  
+  async function loadUserDGV(publicKey) {
+    const purchasesSnap = await get(ref(db, 'userPurchases/' + publicKey));
+    const dgv = purchasesSnap.exists() ? purchasesSnap.val() : 0;
+    document.getElementById('userDGV').textContent = `Your total DGV: ${dgv.toLocaleString()}`;
+  }
+  
+  document.getElementById('buyDGV').addEventListener('click', async () => {
+    const solInput = parseFloat(document.getElementById('solInput').value) || 0;
+    const dgvPerSol = parseFloat(document.getElementById('dgvPerSol').textContent);
+    const dgvAmount = solInput * dgvPerSol;
+  
+    if (solInput <= 0) {
+      alert('Please enter a valid SOL amount.');
+      return;
+    }
+  
+    if (!window.solana || !window.solana.isConnected) {
+      alert('Please connect your Phantom wallet first.');
+      return;
+    }
+  
+    const publicKey = window.solana.publicKey;
+    const recipient = "dzUzbAbRt3eWxjr3XheGwJjh6Yr8pn91SiM2DSB9rW9";
+  
+    try {
+      const connection = new solanaWeb3.Connection(solanaWeb3.clusterApiUrl('mainnet-beta'));
+      const transaction = new solanaWeb3.Transaction().add(
+        solanaWeb3.SystemProgram.transfer({
+          fromPubkey: publicKey,
+          toPubkey: new solanaWeb3.PublicKey(recipient),
+          lamports: solInput * solanaWeb3.LAMPORTS_PER_SOL,
+        })
+      );
+      transaction.feePayer = publicKey;
+      let { blockhash } = await connection.getRecentBlockhash();
+      transaction.recentBlockhash = blockhash;
+  
+      const signed = await window.solana.signTransaction(transaction);
+      const signature = await connection.sendRawTransaction(signed.serialize());
+      await connection.confirmTransaction(signature);
+  
+      const userPurchaseRef = ref(db, 'userPurchases/' + publicKey.toString());
+      const prevAmountSnap = await get(userPurchaseRef);
+      const prevAmount = prevAmountSnap.exists() ? prevAmountSnap.val() : 0;
+      await set(userPurchaseRef, prevAmount + dgvAmount);
+  
+      const newPurchaseRef = ref(db, 'purchases/' + Date.now());
+      await set(newPurchaseRef, {
+        name: publicKey.toString().slice(0, 6) + '...',
+        country: 'unknown',
+        amount: dgvAmount
+      });
+  
+      loadUserDGV(publicKey.toString());
+      showPopup(`✅ Purchase recorded: ${dgvAmount.toLocaleString()} DGV!`);
+    } catch (err) {
+      console.error('Transaction failed:', err);
+      alert('Transaction failed. Please try again.');
+    }
+  });
+  
+  document.getElementById('solInput').addEventListener('input', (e) => {
+    const solAmount = parseFloat(e.target.value) || 0;
+    const dgvPerSol = parseFloat(dgvPerSolEl.textContent);
+    const dgvAmount = solAmount * dgvPerSol;
+    document.getElementById('dgvOutput').textContent = dgvAmount.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  });
+  
+  function showPopup(message) {
+    const popup = document.getElementById('purchasePopup');
+    popup.textContent = message;
+    popup.style.display = 'block';
+    setTimeout(() => {
+      popup.style.display = 'none';
+    }, 6000);
+  }
+  
+  const purchasesRef = ref(db, 'purchases');
+  onChildAdded(purchasesRef, (snapshot) => {
+    const data = snapshot.val();
+    if (data && data.name && data.country && data.amount) {
+      const message = `💥 ${data.name} from ${data.country} just bought ${data.amount.toLocaleString()} DGV!`;
+      showPopup(message);
+    }
+  });
+  </script>  
 
 </body>
 </html>

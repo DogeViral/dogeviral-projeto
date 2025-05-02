@@ -8,9 +8,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@solana/web3.js": "^1.98.2",
+    "firebase": "^11.6.1",
     "vite": "^4.0.0"
   },
-  "devDependencies": {},
   "keywords": [],
   "author": "",
   "license": "ISC"
