@@ -1,20 +1,14 @@
 {
-  "name": "dogeviral-projeto",
-  "version": "1.0.0",
-  "description": "DogeViral - $DGV Presale",
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
-  },
-  "dependencies": {
-    "@solana/web3.js": "^1.98.2",
-    "firebase": "^11.6.1"
-  },
-  "devDependencies": {
-    "vite": "^4.0.0"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
-}
+    "name": "dogeviral",
+    "version": "1.0.0",
+    "scripts": {
+      "dev": "vite",
+      "build": "vite build",
+      "preview": "vite preview"
+    },
+    "dependencies": {},
+    "devDependencies": {
+      "vite": "^4.0.0"
+    }
+  }
+  

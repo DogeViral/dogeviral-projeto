@@ -39,43 +39,53 @@ onValue(ref(db, 'global'), (snapshot) => {
 
 let provider = null;
 
-document.getElementById('connectWallet').addEventListener('click', async () => {
-  if (window.solana && window.solana.isPhantom) {
+document.getElementById('connectWalletBtn').addEventListener('click', async () => {
+  if (!window.solana) {
+    showPopup('❌ Phantom Wallet not detected. Please install Phantom.');
+    return;
+  }
+
+  if (window.solana.isPhantom) {
     try {
       const resp = await window.solana.connect();
       provider = window.solana;
-      alert('Connected: ' + resp.publicKey.toString());
+      console.log('Connected wallet:', resp.publicKey.toString());
+      showPopup('✅ Connected: ' + resp.publicKey.toString());
 
       const userRef = ref(db, 'users/' + resp.publicKey.toString());
       const snapshot = await get(userRef);
       const userData = snapshot.val();
       const dgvBought = userData && userData.dgvBought ? userData.dgvBought : 0;
-      alert(`You have bought ${dgvBought} DGV so far.`);
+      showPopup(`ℹ️ You have bought ${dgvBought} DGV so far.`);
     } catch (err) {
       console.error('Connection failed:', err);
+      showPopup('❌ Connection failed: ' + err.message);
     }
   } else {
-    alert('Phantom Wallet not found');
+    showPopup('❌ Phantom Wallet not found');
   }
 });
 
-document.getElementById('solAmount').addEventListener('input', (e) => {
+document.getElementById('solInput').addEventListener('input', (e) => {
   const solAmount = parseFloat(e.target.value) || 0;
   const dgvAmount = solAmount * dgvPerSol;
   document.getElementById('dgvOutput').textContent = dgvAmount.toFixed(0);
 });
 
-document.getElementById('buyButton').addEventListener('click', async () => {
+document.getElementById('buyDGV').addEventListener('click', async () => {
   if (!provider) {
-    alert('Please connect your Phantom wallet first.');
+    showPopup('❌ Please connect your Phantom wallet first.');
     return;
   }
 
-  const solAmount = parseFloat(document.getElementById('solAmount').value);
+  const solAmount = parseFloat(document.getElementById('solInput').value);
   if (isNaN(solAmount) || solAmount <= 0) {
-    alert('Please enter a valid SOL amount');
+    showPopup('❌ Please enter a valid SOL amount.');
     return;
   }
+
+  document.getElementById('buyDGV').disabled = true;
+  showPopup('⏳ Processing transaction...');
 
   try {
     const lamports = solAmount * 1e9;
@@ -94,7 +104,7 @@ document.getElementById('buyButton').addEventListener('click', async () => {
     transaction.recentBlockhash = blockhash;
 
     const { signature } = await provider.signAndSendTransaction(transaction);
-    await connection.confirmTransaction(signature);
+    await connection.confirmTransaction(signature, 'confirmed');
 
     const dgvBought = solAmount * dgvPerSol;
 
@@ -104,12 +114,53 @@ document.getElementById('buyButton').addEventListener('click', async () => {
     const prevDGV = userData && userData.dgvBought ? userData.dgvBought : 0;
     await set(userRef, { dgvBought: prevDGV + dgvBought });
 
-    await update(ref(db, 'global'), { totalRaised: totalRaised - solAmount });
+    const userPurchaseRef = ref(db, 'userPurchases/' + provider.publicKey.toString());
+    const prevAmountSnap = await get(userPurchaseRef);
+    const prevAmount = prevAmountSnap.exists() ? prevAmountSnap.val() : 0;
+    await set(userPurchaseRef, prevAmount + dgvBought);
 
-    document.getElementById('totalRaised').textContent = (totalRaised - solAmount).toFixed(3);
-    alert('Transaction successful! Signature: ' + signature);
+    const newPurchaseRef = ref(db, 'purchases/' + Date.now());
+    await set(newPurchaseRef, {
+      name: provider.publicKey.toString().slice(0, 6) + '...',
+      country: 'unknown',
+      amount: dgvBought
+    });
+
+    totalRaised -= solAmount; // mantido como você pediu
+    await update(ref(db, 'global'), { totalRaised });
+
+    document.getElementById('totalRaised').textContent = totalRaised.toFixed(3);
+    document.getElementById('solInput').value = '';
+    document.getElementById('dgvOutput').textContent = '0';
+
+    showPopup(`✅ Purchase successful: ${dgvBought.toLocaleString()} DGV!`);
   } catch (err) {
     console.error('Transaction failed:', err);
-    alert('Transaction failed: ' + err.message);
+    showPopup('❌ Transaction failed: ' + err.message);
+  } finally {
+    document.getElementById('buyDGV').disabled = false;
   }
 });
+
+function showPopup(message) {
+  let popup = document.getElementById('purchasePopup');
+  if (!popup) {
+    popup = document.createElement('div');
+    popup.id = 'purchasePopup';
+    popup.style.position = 'fixed';
+    popup.style.bottom = '20px';
+    popup.style.left = '50%';
+    popup.style.transform = 'translateX(-50%)';
+    popup.style.background = '#333';
+    popup.style.color = '#fff';
+    popup.style.padding = '10px 20px';
+    popup.style.borderRadius = '8px';
+    popup.style.zIndex = '1000';
+    document.body.appendChild(popup);
+  }
+  popup.textContent = message;
+  popup.style.display = 'block';
+  setTimeout(() => {
+    popup.style.display = 'none';
+  }, 4000);
+}
