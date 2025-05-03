@@ -164,3 +164,4 @@ function showPopup(message) {
     popup.style.display = 'none';
   }, 4000);
 }
+// Atualização forçada para testar deploy
